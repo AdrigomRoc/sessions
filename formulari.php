@@ -2,21 +2,18 @@
 <html>
 <body>
 <?php
-    if(isset($_POST["type"])){
-        if($_POST["type"] === "login"){
-            if(isset($_POST["password"])){
-                $password = $_POST["password"];
-            }
-            if(isset($_POST["user"])){
-                $user = $_POST["user"];
-            }
-            if(isset($password) && isset($user) && $password=="test" && $user=="test"){
-                header("Location: formulari.php");
-            }else{
-                header("Location: sessio.php");
-            }
+session_start();
+        if( !isset($_SESSION["guarda"]) || $_SESSION["guarda"] != "test"){
+           return;
         }
-    }
+        if(isset($_POST["type"])){
+            if($_POST["type"] === "delete"){
+                if(isset($_SESSION["guarda"])){
+                    session_destroy(); 
+                    return;
+                }
+            }
+         }
 ?>
 <form action="formulari.php" method="post">
     <input type="hidden" name="type" value="form">
@@ -33,5 +30,11 @@
     <br />
     <input type="submit">
 </form>
+<hr>
+<form action="formulari.php" method="post">
+        <input type="hidden" name="type" value="delete">
+        <input type="submit" value="Logout">
+        <br/>
+    </form>
 </body>
 </html>
